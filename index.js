@@ -4,9 +4,8 @@ const endpointActions = require('./macros/macro1/endpointactions');
 const core = require('@actions/core');
 const github = require('@actions/github')
 
-var SECRET_TOKEN = Fs.readFileSync(__dirname+"\\textfiles\\secret.txt").toString();
-console.log(`Secret:${SECRET_TOKEN}`);
-
+let tokenData = Fs.readFileSync(__dirname+"\\textfiles\\secret.txt").toString();
+//let tokenData = core.getInput('token-data');
 let inputCSV = __dirname+'/destinations.csv';
 
 // Check that the file exists 
@@ -23,13 +22,12 @@ function OutputContents(inputStream){
         .pipe(new CsvReadableStream({ delimiter: ',', parseNumbers: true, parseBooleans: true, trim: true }))
         .on('data', function (row) {
             dataPresent = true;
-            console.log(`Row:${row}`);                        
+            //console.log(`Row:${row}`);
+            endpointActions.SendGetCommand(row, tokenData);
         })
         .on('end', function () {
-            if(dataPresent){
-                console.log('\nNo more rows!');
-            } else{
+            if(!dataPresent){
                 console.log('No rows in file.');
-            }            
+            }      
         });
 }
