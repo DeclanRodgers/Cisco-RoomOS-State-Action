@@ -1,0 +1,20 @@
+{
+  "name": "node-csv-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Declan R.",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "axios": "^1.3.4",
+    "csv-reader": "^1.0.11",
+    "file-system": "^2.2.2",
+    "fs": "^0.0.1-security"
+  }
+}
