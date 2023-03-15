@@ -5,13 +5,12 @@ const macro2 = require('./macros/macro2/postrequest');
 const core = require('@actions/core');
 const github = require('@actions/github')
 
-//let tokenData = core.getInput('token-data');
+let tokenData = core.getInput('token-data');
 let destinationsCSV = __dirname+'/destinations.csv';
 let commandsCSV = __dirname+'/commands.csv';
-let tokenData = Fs.readFileSync(__dirname+"\\textfiles\\secret.txt").toString();
+//let tokenData = Fs.readFileSync(__dirname+"\\textfiles\\secret.txt").toString();
 //let emptyCSV = __dirname+'/test-csv/empty.csv';
 //let fsreadCSV = __dirname+'/test-csv/fs-read.csv';
-
 
 async function main(){
     // Check that the file(s) exists 

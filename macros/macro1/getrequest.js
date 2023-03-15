@@ -1,5 +1,5 @@
 const axios = require('axios');
-const urlConcat = require('../../lib/urlconcat')
+const urlConcat = require('../../lib/UrlConcat')
 
 async function SendGetCommand(device, jwtToken){
   let apiEndpoint = "https://mpp.unifiedfx.com/api/devices/{id}?useDemo=true";
