@@ -1,9 +1,9 @@
 const axios = require('axios');
 const urlConcat = require('../../lib/urlconcat')
 
-function SendGetCommand(deviceid, jwtToken){
+async function SendGetCommand(device, jwtToken){
   let apiEndpoint = "https://mpp.unifiedfx.com/api/devices/{id}?useDemo=true";
-  let deviceEndpoint = urlConcat.ConcatenatePlaceholder(apiEndpoint, deviceid);
+  let deviceEndpoint = urlConcat.ConcatenatePlaceholder(apiEndpoint, device);
   
   let headerConfig = {
     headers: {
@@ -13,19 +13,16 @@ function SendGetCommand(deviceid, jwtToken){
   };
 
   try{
-    console.log(`*** GET REQUEST *** \nEndpoint: ${deviceEndpoint}`);
-    axios.get(deviceEndpoint, headerConfig)
-    .then(response =>{
-      console.log(response.data);
-      return response.data;
-    })
-    .catch(function(error){
-      if(error.response){
-        console.log(`\nAxios error with device ${deviceid}:\n${error.stack}`);
-      }
-    });    
+    await axios.get(deviceEndpoint, headerConfig)
+      .then(response =>{
+        console.log(`\nGET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
+      }).catch(function(error){
+        if(error.response){
+          console.log(`\nAxios error with device ${device}:\n${error.stack}`);
+        }
+      });        
   } catch (error) {
-      console.log("Error encountered:\n", error.stack);
+      console.log("Error occured:\n", error.stack);
   };
 }
 

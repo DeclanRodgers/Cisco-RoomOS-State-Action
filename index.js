@@ -1,59 +1,53 @@
 const Fs = require('fs');
-const CsvReadableStream = require('csv-reader');
-const endpointActions = require('./macros/macro1/getrequest');
+const extractor = require('./lib/ExtractCSVContents');
+const macro1 = require('./macros/macro1/getrequest');
+const macro2 = require('./macros/macro2/postrequest');
 const core = require('@actions/core');
 const github = require('@actions/github')
 
-let tokenData = Fs.readFileSync(__dirname+"\\textfiles\\secret.txt").toString();
 //let tokenData = core.getInput('token-data');
-let inputCSV = __dirname+'/destinations.csv';
+let destinationsCSV = __dirname+'/destinations.csv';
+let commandsCSV = __dirname+'/commands.csv';
+let tokenData = Fs.readFileSync(__dirname+"\\textfiles\\secret.txt").toString();
+//let emptyCSV = __dirname+'/test-csv/empty.csv';
+//let fsreadCSV = __dirname+'/test-csv/fs-read.csv';
 
-// Check that the file exists 
-if(!Fs.existsSync(inputCSV)) {
-    console.log("File not found");
-} else {
-    let inputStream = Fs.createReadStream(inputCSV, 'utf8');
-    ExtractContents(inputStream);
+
+async function main(){
+    // Check that the file(s) exists 
+    if(!Fs.existsSync(destinationsCSV) || !Fs.existsSync(commandsCSV)) {
+        console.log("File not found");
+    } else {        
+        let deviceArray = await extractor.ExtractContents(destinationsCSV);        
+        console.log("Returned Devices Array:\n",deviceArray);
+        console.log('\n');
+        let commandArray = await extractor.ExtractContents(commandsCSV);
+        console.log("Returned Command Array:\n",commandArray);
+        console.log('\n');
+        // let emptyFileArray = await extractor.ExtractContents(emptyCSV);
+        // console.log("Returned empty Array:\n",emptyFileArray);
+        // console.log('\n');
+        // let fsFileArray = await extractor.ExtractContents(fsreadCSV);
+        // console.log("Returned fsfile Array:\n",fsFileArray);
+        // console.log('\n')
+        OutputCalls(deviceArray, commandArray);
+    }
 }
 
-async function ExtractContents(inputStream){
-    let dataPresent = false;
-    var deviceArray = [];
-    await inputStream
-        .pipe(new CsvReadableStream({ delimiter: ',', parseNumbers: true, parseBooleans: true, trim: true }))
-        .on('data', function (row) {
-            dataPresent = true;
-            //console.log(`Row:${row}`);
-            //read from command > call endpoint for each command file
-            //endpointActions.SendGetCommand(row, tokenData);
-            //responseData = await endpointActions.SendGetCommand(row, tokenData);
-            //console.log(responseData);
-            let device = row.toString()
-            console.log("Adding: ",device);
-            deviceArray.push(device);
-        })
-        .on('end', function () {
-            if(!dataPresent){
-                console.log('File empty.');
-            } else{
-                console.log("Array:\n",deviceArray);
-                OutputCalls(deviceArray);
-            }    
-        });
-}
-
-function OutputCalls(deviceArray){
-    endpointActions.SendGetCommand(deviceArray, tokenData)
-
-    // const promises = deviceArray.map((device) =>
-    //     responseData = endpointActions.SendGetCommand(device, tokenData)
-    // );
-    // Promise.all([...promises]).then(function (values) {
-    //     console.log(values);
-    // });    
+async function OutputCalls(deviceArray, commandArray){
+    console.log('** GET Calls **')    
+    for(i = 0; i < deviceArray.length; i++){
+        console.log(`GET Request for device: ${deviceArray[i]}`)
+        await macro1.SendGetCommand(deviceArray[i], tokenData)
+    };
     
-    // deviceArray.forEach(async device => {
-    //     responseData = await endpointActions.SendGetCommand(device, tokenData);
-    //     //console.log("DATA:\n",responseData);
-    // });  
+    console.log('\n** POST Calls **')
+    for(i = 0; i < deviceArray.length; i++){
+        for(j = 0; j < commandArray.length; j++){
+            console.log(`POST Request for device: ${deviceArray[i]} with command ${commandArray[j]}`)
+            await macro2.SendPostCommand(deviceArray[i], commandArray[j], tokenData);
+        };
+    };
 }
+
+main();
