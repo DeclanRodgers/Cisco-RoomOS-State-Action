@@ -19,7 +19,7 @@ jobs:
         
       - name: Call Device Endpoint
         id: apiCall
-        uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@0.9'
+        uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@1.0'
         with:
              token-data: ${{ secrets.JWT_TOKEN }}
              
