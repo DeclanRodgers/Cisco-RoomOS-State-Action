@@ -17,4 +17,4 @@ List of Device MAC addresses to call.
 
 ### `commands.csv`
 
-xCommands to send to s Device.
+xCommands to send to a Device.
