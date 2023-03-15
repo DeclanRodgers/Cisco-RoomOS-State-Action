@@ -1,0 +1,25 @@
+on: push
+jobs:
+  device-endpoint-actions:
+    name: Call Device Endpoints
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Current Repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+
+      - name: Install and verify Node Modules
+        run: |
+            npm install
+            npm list
+        
+      - name: Call Device Endpoint
+        id: apiCall
+        uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@0.9'
+        with:
+             token-data: ${{ secrets.JWT_TOKEN }}
+             
