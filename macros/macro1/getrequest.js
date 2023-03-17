@@ -4,6 +4,7 @@ const urlConcat = require('../../lib/UrlConcat')
 async function SendGetCommand(device, jwtToken, apiEndpoint){
   //let apiEndpoint = "https://mpp.unifiedfx.com/api/devices/{id}?useDemo=true";
   let deviceEndpoint = urlConcat.ConcatenatePlaceholder(apiEndpoint, device);
+  deviceEndpoint += '?useDemo=true';    //for use in test suite, remove before final
   
   let headerConfig = {
     headers: {

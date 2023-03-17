@@ -4,7 +4,7 @@ inputs:
   api-endpoint:   #ID of input
     description: 'The endpoint to call'
     required: true
-    default: "https://mpp.unifiedfx.com/api/devices/{id}?useDemo=true"
+    default: "https://mpp.unifiedfx.com/api/devices/{id}"
   token-data:   #github JWT Token repository secret
     description: 'JWT Token data to authenticate to the MPP service'
     required: true

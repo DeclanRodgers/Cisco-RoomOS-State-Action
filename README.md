@@ -10,14 +10,14 @@ Uses a Github action to push desired state to Cisco RoomOS devices using Device-
 
 ### Example workflow.yml
 
-'''yml
+```
       - name: Call Device Endpoint
         id: apiCall
         uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@1.0'
         with:
             token-data: ${{ secrets.JWT_TOKEN }}
             api-endpoint: "https://mpp.unifiedfx.com/api/devices/{id}/command?useDemo=true"
-'''
+```
 
 ### JWT Token
 
