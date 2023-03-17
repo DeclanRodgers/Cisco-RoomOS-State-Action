@@ -24,7 +24,7 @@ async function main(){
 }
 
 async function OutputCalls(deviceArray, commandArray){
-    console.log('** GET Calls **')    
+    console.log('\n** GET Calls **')    
     for(i = 0; i < deviceArray.length; i++){
         console.log(`GET Request for device: ${deviceArray[i]}`)
         await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint)
