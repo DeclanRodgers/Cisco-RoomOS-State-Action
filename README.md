@@ -16,7 +16,7 @@ Uses a Github action to push desired state to Cisco RoomOS devices using Device-
         uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@1.0'
         with:
             token-data: ${{ secrets.JWT_TOKEN }}
-            api-endpoint: "https://mpp.unifiedfx.com/api/devices/{id}/command?useDemo=true"
+            api-endpoint: "https://mpp.unifiedfx.com/api/devices/{id}"
 ```
 
 ### JWT Token
