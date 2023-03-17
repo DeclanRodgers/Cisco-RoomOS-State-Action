@@ -17,10 +17,8 @@ async function main(){
     } else {        
         let deviceArray = await extractor.ExtractContents(destinationsCSV);        
         console.log("Returned Devices Array:\n",deviceArray);
-        console.log('\n');
         let commandArray = await extractor.ExtractContents(commandsCSV);
         console.log("Returned Command Array:\n",commandArray);
-        console.log('\n');
         OutputCalls(deviceArray, commandArray);
     }
 }

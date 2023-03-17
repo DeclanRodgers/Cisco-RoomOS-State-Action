@@ -16,7 +16,7 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
   try{
     await axios.get(deviceEndpoint, headerConfig)
       .then(response =>{
-        console.log(`\nGET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
+        console.log(`GET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}\n`);
       }).catch(function(error){
         if(error.response){
           console.log(`\nAxios error with device ${device}:\n${error.stack}`);
