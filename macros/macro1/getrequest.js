@@ -1,8 +1,8 @@
 const axios = require('axios');
 const urlConcat = require('../../lib/UrlConcat')
 
-async function SendGetCommand(device, jwtToken){
-  let apiEndpoint = "https://mpp.unifiedfx.com/api/devices/{id}?useDemo=true";
+async function SendGetCommand(device, jwtToken, apiEndpoint){
+  //let apiEndpoint = "https://mpp.unifiedfx.com/api/devices/{id}?useDemo=true";
   let deviceEndpoint = urlConcat.ConcatenatePlaceholder(apiEndpoint, device);
   
   let headerConfig = {

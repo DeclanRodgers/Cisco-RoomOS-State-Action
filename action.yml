@@ -1,10 +1,10 @@
 name: 'Cisco RoomOS State Action'
 description: 'Cisco RoomOS Device Configuration Management using Infrastructure as Code'
 inputs:
-  # api-endpoint:   #ID of input
-  #   description: 'The endpoint to call'
-  #   required: true
-  #   #default: ''
+  api-endpoint:   #ID of input
+    description: 'The endpoint to call'
+    required: true
+    default: "https://mpp.unifiedfx.com/api/devices/{id}?useDemo=true"
   token-data:   #github JWT Token repository secret
     description: 'JWT Token data to authenticate to the MPP service'
     required: true
