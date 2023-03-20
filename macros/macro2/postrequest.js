@@ -25,7 +25,7 @@ async function SendPostCommand(device, xCommand, jwtToken, apiEndpoint){
         console.log(`POST Data recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
       }).catch(function(error){
         if(error.response){
-          console.log(`Axios error with device ${device}:\n${error.message}\nError Code:${error.code}`);
+          console.log(`Axios error with device ${device}:\n${error.message}\nError Code:${error.code}\nError Status:${error.status}\n`);
         }
     });
   } catch (error) {
