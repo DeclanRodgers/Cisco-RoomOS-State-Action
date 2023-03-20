@@ -14,6 +14,7 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
   };
 
   try{
+    console.log(`Endpoint: ${deviceEndpoint}`)
     await axios.get(deviceEndpoint, headerConfig)
       .then(response =>{
         console.log(`GET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
