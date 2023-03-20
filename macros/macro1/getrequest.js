@@ -20,11 +20,11 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
         console.log(`GET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
       }).catch(function(error){
         if(error.response){
-          console.log(`\nAxios error with device ${device}:\n${error.stack}`);
+          console.log(`\nAxios error with device ${device}:\n${error.message}\nError Code:${error.code}`);
         }
       });        
   } catch (error) {
-      console.log("Error occured:\n", error.stack);
+      console.log(`Error occured:\n",${error.message}`);
   };
 }
 
