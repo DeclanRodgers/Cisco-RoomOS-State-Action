@@ -19,6 +19,7 @@ async function SendPostCommand(device, xCommand, jwtToken, apiEndpoint){
   };
 
   try{
+    console.log(`Endpoint: ${deviceEndpoint}`)
     await axios.post(deviceEndpoint, bodyData, headerConfig)
       .then(response =>{
         console.log(`POST Data recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
