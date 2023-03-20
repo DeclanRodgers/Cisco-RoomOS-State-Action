@@ -18,8 +18,17 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
       .then(response =>{
         console.log(`GET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
       }).catch(function(error){
-        if(error.response){
-          console.log(`Axios error with device ${device}:\n${error.message}\nError Code:${error.code}\nError Status:${error.response.status}\n`);
+        switch(error.response.status) {
+          case 401:
+            console.log(`Axios error with device ${device}:\nError Code ${error.response.status}: Authorisation Token invalid or missing\n`);
+            break;
+          default:
+            console.log(`Axios error with device ${device}: Error Code ${error.response.status}\n`);
+            break;
+        
+        // if(error.response){
+        //   console.log(`Axios error with device ${device}:\n${error.message}\nError Code:${error.code}\nError Status:${error.response.status}\n`);
+        // }
         }
       });        
   } catch (error) {
