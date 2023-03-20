@@ -3,7 +3,7 @@ const extractor = require('./lib/ExtractCSVContents');
 const macro1 = require('./macros/macro1/getrequest');
 const macro2 = require('./macros/macro2/postrequest');
 const core = require('@actions/core');
-const github = require('@actions/github')
+const github = require('@actions/github');  //check for log operation
 
 let tokenData = core.getInput('token-data');
 let apiEndpoint = core.getInput('api-endpoint');
