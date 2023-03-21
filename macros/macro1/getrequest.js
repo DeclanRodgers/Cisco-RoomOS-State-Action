@@ -16,7 +16,9 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
     console.log(`Endpoint: ${deviceEndpoint}`);
     await axios.get(deviceEndpoint, headerConfig)
       .then(response =>{
-        console.log(`GET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
+        var responseData = response.data;
+        console.log(`Data Returned:\n Hostname:${responseData['hostName']}\n Product${responseData['product']}`)
+        //console.log(`GET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
       }).catch(function(error){
         switch(error.response.status) {
           case 401:
@@ -32,7 +34,7 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
         }
       });        
   } catch (error) {
-      console.log(`Error occured:\n",${error.message}`);
+      console.log(`Error occured:\n ${error.message}`);
   };
 }
 

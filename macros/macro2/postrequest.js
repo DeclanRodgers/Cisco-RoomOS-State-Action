@@ -21,10 +21,15 @@ async function SendPostCommand(device, xCommand, jwtToken, apiEndpoint){
     console.log(`Endpoint: ${deviceEndpoint}`)
     await axios.post(deviceEndpoint, bodyData, headerConfig)
       .then(response =>{
-        console.log(`POST Data recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
+        console.log(`Response:${response.status} - xCommand(s) sent`);
       }).catch(function(error){
-        if(error.response){
-          console.log(`Axios error with device ${device}:\n${error.message}\nError Code:${error.code}\nError Status:${error.response.status}\n`);
+        switch(error.response.status) {
+          case 401:
+            console.log(`Axios error with device ${device}:\nError Code ${error.response.status}: Authorisation Token invalid or missing\n`);
+            break;
+          default:
+            console.log(`Axios error with device ${device}: Error Code ${error.response.status}\n`);
+            break;
         }
     });
   } catch (error) {
