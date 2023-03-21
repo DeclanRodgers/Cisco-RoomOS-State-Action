@@ -10,7 +10,7 @@ Uses a Github action to push desired state to Cisco RoomOS devices using Device-
 
 ### Example workflow.yml
 
-```
+``` yaml
       - name: Call Device Endpoint
         id: apiCall
         uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@1.0'
