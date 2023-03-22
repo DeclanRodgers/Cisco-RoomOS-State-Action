@@ -25,10 +25,13 @@ async function SendPostCommand(device, xCommand, jwtToken, apiEndpoint){
       }).catch(function(error){
         switch(error.response.status) {
           case 401:
-            console.log(`Axios error with device ${device}:\nError Code ${error.response.status}: Authorisation Token invalid or missing\n`);
+            console.log(`Error Code ${error.response.status} with device '${device}': Authorisation Token invalid or missing\n`);
+            break;
+          case 404:
+            console.log(`Error Code ${error.response.status} with device '${device}': Device or Endpoint not valid/found\n`);
             break;
           default:
-            console.log(`Axios error with device ${device}: Error Code ${error.response.status}\n`);
+            console.log(`Error Code ${error.response.status} with device '${device}'\n`);
             break;
         }
     });

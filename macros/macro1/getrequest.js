@@ -16,21 +16,20 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
     console.log(`Endpoint: ${deviceEndpoint}`);
     await axios.get(deviceEndpoint, headerConfig)
       .then(response =>{
-        var responseData = response.data;
-        console.log(`Data Returned:\n Hostname:${responseData['hostName']}\n Product${responseData['product']}`)
-        //console.log(`GET Data Recieved for ${device}:\n${JSON.stringify(response.data, null, "\t")}`);
+        console.log(`Data Returned:\n Hostname:${response.data.hostName}\n Product:${response.data.product}\n Registered:${response.data.registrationState}\n Serial:${response.data.serialNumber}\n Firmware:${response.data.firmware}\n WebServer Enabled:${response.data.enableWebServer}\n WebServer Port:${response.data.webServerPort}\n`);
+        //var responseData = response.data;
+        //console.log(`Data Returned:\n Hostname:${responseData['hostName']}\n Product${responseData['product']}`)
       }).catch(function(error){
         switch(error.response.status) {
           case 401:
-            console.log(`Axios error with device ${device}:\nError Code ${error.response.status}: Authorisation Token invalid or missing\n`);
+            console.log(`Error Code ${error.response.status} with device '${device}': Authorisation Token invalid or missing\n`);
+            break;
+          case 404:
+            console.log(`Error Code ${error.response.status} with device '${device}': Device or Endpoint not valid/found\n`);
             break;
           default:
-            console.log(`Axios error with device ${device}: Error Code ${error.response.status}\n`);
+            console.log(`Error Code ${error.response.status} with device '${device}'\n`);
             break;
-        
-        // if(error.response){
-        //   console.log(`Axios error with device ${device}:\n${error.message}\nError Code:${error.code}\nError Status:${error.response.status}\n`);
-        // }
         }
       });        
   } catch (error) {
