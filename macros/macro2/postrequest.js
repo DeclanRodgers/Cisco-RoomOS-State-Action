@@ -1,5 +1,6 @@
 const axios = require('axios');
 const urlConcat = require('../../lib/UrlConcat')
+const core = require('@actions/core'); 
 
 async function SendPostCommand(device, xCommand, jwtToken, apiEndpoint){
   let deviceEndpoint = urlConcat.ConcatenatePlaceholder(apiEndpoint, device);
@@ -18,25 +19,25 @@ async function SendPostCommand(device, xCommand, jwtToken, apiEndpoint){
   };
 
   try{
-    console.log(`Endpoint: ${deviceEndpoint}`)
+    core.info(`Endpoint: ${deviceEndpoint}`)
     await axios.post(deviceEndpoint, bodyData, headerConfig)
       .then(response =>{
-        console.log(`Response:${response.status} - xCommand(s) sent`);
+        core.info(`Response:${response.status} - xCommand(s) sent`);
       }).catch(function(error){
         switch(error.response.status) {
           case 401:
-            console.log(`Error Code ${error.response.status} with device '${device}': Authorisation Token invalid or missing\n`);
+            core.warning(`\tError Code ${error.response.status} with device '${device}': Authorisation Token invalid or missing`);
             break;
           case 404:
-            console.log(`Error Code ${error.response.status} with device '${device}': Device or Endpoint not valid/found\n`);
+            core.warning(`\tError Code ${error.response.status} with device '${device}': Device or Endpoint not valid/found `);
             break;
           default:
-            console.log(`Error Code ${error.response.status} with device '${device}'\n`);
+            core.warning(`\tError Code ${error.response.status} with device '${device}'`);
             break;
         }
-    });
+      });        
   } catch (error) {
-    console.log(`Error occured:\n${error.message}`);
+      core.warning(`\tError occured:\n ${error.message}`);
   };
 }
   

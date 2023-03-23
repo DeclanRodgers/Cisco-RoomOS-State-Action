@@ -2,8 +2,7 @@ const Fs = require('fs');
 const extractor = require('./lib/ExtractCSVContents');
 const macro1 = require('./macros/macro1/getrequest');
 const macro2 = require('./macros/macro2/postrequest');
-const core = require('@actions/core');
-const github = require('@actions/github');  //check for log operation
+const core = require('@actions/core');  //contains log operations
 
 // let tokenData = core.getInput('token-data');
 // let apiEndpoint = core.getInput('api-endpoint');
@@ -16,29 +15,41 @@ async function main(){
     // Check that the file(s) exists 
     if(!Fs.existsSync(destinationsCSV) || !Fs.existsSync(commandsCSV)) {
         console.log("Destinations or Commands file not found");
+        core.error('\tDestinations or Commands file not found');
     } else {        
-        let deviceArray = await extractor.ExtractContents(destinationsCSV);        
-        console.log("Returned Array:\n",deviceArray);
-        let commandArray = await extractor.ExtractContents(commandsCSV);
-        console.log("Returned Array:\n",commandArray);
-        OutputCalls(deviceArray, commandArray);
+        try{
+            let deviceArray = await extractor.ExtractContents(destinationsCSV);        
+            //console.log("Returned Array:\n",deviceArray);
+            let commandArray = await extractor.ExtractContents(commandsCSV);
+            //console.log("Returned Array:\n",commandArray);
+            core.info(`CSV data extracted successfully`)
+            OutputCalls(deviceArray, commandArray);
+        } catch (err){
+            core.error(`\tError processing CSV files: ${err.message}`);
+        }
     }
 }
 
 async function OutputCalls(deviceArray, commandArray){
-    console.log('\n** GET Calls **')    
-    for(i = 0; i < deviceArray.length; i++){
-        console.log(`GET Request for device: ${deviceArray[i]}`)
-        await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint)
-    };
+    try{
+        core.info('\n** GET Calls **')    
+        for(i = 0; i < deviceArray.length; i++){
+            core.info(`GET Request for device: ${deviceArray[i]}`);
+            await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
+            core.info('\n');
+        };
     
-    // console.log('\n** POST Calls **')
-    // for(i = 0; i < deviceArray.length; i++){
-    //     for(j = 0; j < commandArray.length; j++){
-    //         console.log(`POST Request for device: ${deviceArray[i]} with command(s):\n ${commandArray[j]}`)
-    //         await macro2.SendPostCommand(deviceArray[i], commandArray[j], tokenData, apiEndpoint);
-    //     };
-    // };
+    core.info('\n** POST Calls **')
+    for(i = 0; i < deviceArray.length; i++){
+        for(j = 0; j < commandArray.length; j++){
+            core.info(`POST Request for device: ${deviceArray[i]} with command(s):\n${commandArray[j]}`);
+            await macro2.SendPostCommand(deviceArray[i], commandArray[j], tokenData, apiEndpoint);
+            core.info('\n');
+        };
+    };
+    } catch(err){
+        core.error(`\t${err.message}`);
+    }
 }
 
 main();
