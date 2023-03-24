@@ -13,8 +13,7 @@ let commandsCSV = __dirname+'\\commands.csv';
 async function main(){
     // Check that the file(s) exists 
     if(!Fs.existsSync(destinationsCSV) || !Fs.existsSync(commandsCSV)) {
-        console.log("Destinations or Commands file not found");
-        core.error('\tDestinations or Commands file not found');
+        core.error(`\tDestinations '${destinationsCSV}' or Commands ${commandsCSV} file not found`);
     } else {        
         try{
             let deviceArray = await extractor.ExtractContents(destinationsCSV);        
