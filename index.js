@@ -4,10 +4,9 @@ const macro1 = require('./macros/macro1/getrequest');
 const macro2 = require('./macros/macro2/postrequest');
 const core = require('@actions/core');  //contains log operations
 
-// let tokenData = core.getInput('token-data');
-// let apiEndpoint = core.getInput('api-endpoint');
-let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt')
-let apiEndpoint = "https://app.device-view.com/api/devices/{id}";
+//let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt')
+let tokenData = core.getInput('token-data');
+let apiEndpoint = core.getInput('api-endpoint');
 let destinationsCSV = __dirname+'\\destinations.csv';
 let commandsCSV = __dirname+'\\commands.csv';
 
@@ -19,9 +18,7 @@ async function main(){
     } else {        
         try{
             let deviceArray = await extractor.ExtractContents(destinationsCSV);        
-            //console.log("Returned Array:\n",deviceArray);
             let commandArray = await extractor.ExtractContents(commandsCSV);
-            //console.log("Returned Array:\n",commandArray);
             core.info(`CSV data extracted successfully`)
             OutputCalls(deviceArray, commandArray);
         } catch (err){
@@ -39,7 +36,7 @@ async function OutputCalls(deviceArray, commandArray){
             core.info('\n');
         };
     
-    core.info('\n** POST Calls **')
+    core.info('** POST Calls **')
     for(i = 0; i < deviceArray.length; i++){
         for(j = 0; j < commandArray.length; j++){
             core.info(`POST Request for device: ${deviceArray[i]} with command(s):\n${commandArray[j]}`);
