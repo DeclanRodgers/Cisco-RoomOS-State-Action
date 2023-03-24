@@ -7,8 +7,8 @@ const core = require('@actions/core');  //contains log operations
 //let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt')
 let tokenData = core.getInput('token-data');
 let apiEndpoint = core.getInput('api-endpoint');
-let destinationsCSV = __dirname+'\\destinations.csv';
-let commandsCSV = __dirname+'\\commands.csv';
+let destinationsCSV = __dirname+'/destinations.csv';
+let commandsCSV = __dirname+'/commands.csv';
 
 async function main(){
     // Check that the file(s) exists 
