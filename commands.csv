@@ -1,5 +1,5 @@
 #File that contains commands to send to phone
 #Lines starting with hashtags are ignored
-#"Dialpad_1|Pause:4000|Dialpad_2|Pause:4000|Dialpad_3"
-#"Pause:8000|Back"
 #"WrongCommandOne|Pause|wrongcommand2"
+"Dialpad_1|Pause:4000|Dialpad_2|Pause:4000|Dialpad_3"
+"Pause:8000|Back"
