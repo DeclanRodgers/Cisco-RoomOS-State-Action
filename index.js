@@ -4,7 +4,8 @@ const macro1 = require('./macros/macro1/getrequest');
 const macro2 = require('./macros/macro2/postrequest');
 const core = require('@actions/core');  //contains log operations
 
-//let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt')    //offline testing
+//let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt');    //offline testing
+//let apiEndpoint = "https://app.device-view.com/api/devices/{id}";     //offline testing
 let tokenData = core.getInput('token-data');
 let apiEndpoint = core.getInput('api-endpoint');
 let destinationsCSV = __dirname+'/destinations.csv';
