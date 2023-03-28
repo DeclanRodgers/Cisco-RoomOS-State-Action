@@ -29,6 +29,8 @@ async function main(){
 
 async function OutputCalls(deviceArray, commandArray){
     try{
+        console.log(deviceArray);
+        
         core.info('\n** GET Calls **')    
         for(var i = deviceArray.length - 1; i >= 0; i--){
             core.info(`GET Request for device: ${deviceArray[i]}`);
@@ -39,7 +41,9 @@ async function OutputCalls(deviceArray, commandArray){
             }
             core.info('\n');
         };
-        
+
+        console.log(deviceArray);
+
         if (deviceArray){
             core.info('** POST Calls **')
             for(i = 0; i < deviceArray.length; i++){
