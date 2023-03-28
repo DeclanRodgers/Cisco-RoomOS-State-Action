@@ -30,20 +30,28 @@ async function main(){
 async function OutputCalls(deviceArray, commandArray){
     try{
         core.info('\n** GET Calls **')    
-        for(i = 0; i < deviceArray.length; i++){
+        for(var i = deviceArray.length - 1; i >= 0; i--){
             core.info(`GET Request for device: ${deviceArray[i]}`);
-            await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
+            let deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
+            if (!deviceValid){                
+                deviceArray.splice(i, 1);                
+                core.warning(`\tDevice '${deviceArray[i]}' is not valid, removed.`);
+            }
             core.info('\n');
         };
-    
-        core.info('** POST Calls **')
-        for(i = 0; i < deviceArray.length; i++){
-            for(j = 0; j < commandArray.length; j++){
-                core.info(`POST Request for device: ${deviceArray[i]} with command(s):\n${commandArray[j]}`);
-                await macro2.SendPostCommand(deviceArray[i], commandArray[j], tokenData, apiEndpoint);
-                core.info('\n');
+        
+        if (deviceArray){
+            core.info('** POST Calls **')
+            for(i = 0; i < deviceArray.length; i++){
+                for(j = 0; j < commandArray.length; j++){
+                    core.info(`POST Request for device: ${deviceArray[i]} with command(s):\n${commandArray[j]}`);
+                    await macro2.SendPostCommand(deviceArray[i], commandArray[j], tokenData, apiEndpoint);
+                    core.info('\n');
+                };
             };
-        };
+        } else {
+            core.error("\tNo devices valid for POST call.");
+        }
     } catch(err){
         core.error(`\t${err.message}`);
     }
