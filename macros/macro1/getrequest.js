@@ -22,18 +22,18 @@ async function SendGetCommand(device, jwtToken, apiEndpoint){
       }).catch(function(error){
         switch(error.response.status) {
           case 401:
-            core.warning(`\tError Code ${error.response.status} with device '${device}': Authorisation Token invalid or missing`);
+            core.warning(`\tError Code ${error.response.status} with device '${device}': Authorisation Token invalid or missing, removing`);
             return false;            
           case 404:
-            core.warning(`\tError Code ${error.response.status} with device '${device}': Device or Endpoint not valid/found `);
+            core.warning(`\tError Code ${error.response.status} with device '${device}': Device or Endpoint not valid/found, removing`);
             return false;
           default:
-            core.warning(`\tError Code ${error.response.status} with device '${device}'`);
+            core.warning(`\tError Code ${error.response.status} with device '${device}', removing`);
             return false;
         }
       });        
   } catch (error) {
-      core.warning(`\tError occured:\n ${error.message}`);
+      core.warning(`\tError occured:\n ${error.message}, removing`);
       return false;
   };
 }

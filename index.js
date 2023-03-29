@@ -2,7 +2,7 @@ const Fs = require('fs');
 const extractor = require('./lib/ExtractCSVContents');
 const macro1 = require('./macros/macro1/getrequest');
 const macro2 = require('./macros/macro2/postrequest');
-const core = require('@actions/core');  //contains log operations
+const core = require('@actions/core');
 
 //let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt');    //offline testing
 //let apiEndpoint = "https://app.device-view.com/api/devices/{id}";     //offline testing
@@ -29,17 +29,18 @@ async function main(){
 
 async function OutputCalls(deviceArray, commandArray){
     try{        
-        core.info('\n** GET Calls **')    
+        core.info('\n** GET Calls **')
+        //Iterates through array in reverse 
         for(var i = deviceArray.length - 1; i >= 0; i--){
             core.info(`GET Request for device: ${deviceArray[i]}`);
             let deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
             if (!deviceValid){                                
-                core.warning(`\tDevice '${deviceArray[i]}' is not valid, removed.`);                
                 deviceArray.splice(i, 1);
             }
             core.info('\n');
         };
 
+        //Iterates in correct order
         if (deviceArray.length === undefined){
             core.info('** POST Calls **')
             for(i = 0; i < deviceArray.length; i++){
@@ -50,14 +51,10 @@ async function OutputCalls(deviceArray, commandArray){
                 };
             };
         } else {
-            core.info("Reached else block:");
             throw new Error("No devices valid for POST call.");
-            //core.setFailed("\tExit Code 1: Action failed because no devices valid for POST from GET response.")
         }
     } catch(err){
-        core.info("Reached catch block:");        
-        core.setFailed(`\tExit code ${err}`);
-        //core.error(`\t${err.message}`);
+        core.setFailed(`\t${err}`);
     }
 }
 
