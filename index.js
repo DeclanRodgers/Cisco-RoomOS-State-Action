@@ -51,6 +51,7 @@ async function OutputCalls(deviceArray, commandArray){
             };
         } else {
             core.error("\tNo devices valid for POST call.");
+            core.setFailed("\tAction failed because no devices valid for POST from GET response.")
         }
     } catch(err){
         core.error(`\t${err.message}`);
