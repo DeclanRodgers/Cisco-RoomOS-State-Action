@@ -54,8 +54,8 @@ async function OutputCalls(deviceArray, commandArray){
             //core.setFailed("\tExit Code 1: Action failed because no devices valid for POST from GET response.")
         }
     } catch(err){
-        core.info("Reached catch block:");
-        core.setFailed(`\tExit code ${err}: ${err.message}`)
+        core.info("Reached catch block:");        
+        core.setFailed(`\tExit code ${err}`);
         //core.error(`\t${err.message}`);
     }
 }
