@@ -50,6 +50,7 @@ async function OutputCalls(deviceArray, commandArray){
                 };
             };
         } else {
+            core.info("Reached else block:");
             throw new Error("No devices valid for POST call.");
             //core.setFailed("\tExit Code 1: Action failed because no devices valid for POST from GET response.")
         }
