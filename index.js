@@ -40,7 +40,7 @@ async function OutputCalls(deviceArray, commandArray){
             core.info('\n');
         };
 
-        core.info(deviceArray);
+        core.info(`Devices Left:\n${deviceArray}`);
 
         //Iterates in correct order
         if (deviceArray.length === undefined){
