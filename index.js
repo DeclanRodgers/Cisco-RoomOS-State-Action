@@ -40,6 +40,8 @@ async function OutputCalls(deviceArray, commandArray){
             core.info('\n');
         };
 
+        core.info(deviceArray);
+
         //Iterates in correct order
         if (deviceArray.length === undefined){
             core.info('** POST Calls **')
