@@ -22,7 +22,7 @@ async function main(){
             core.info(`CSV data extracted successfully`);
             OutputCalls(deviceArray, commandArray);
         } catch (err){
-            core.error(`\tError processing CSV files: ${err.message}`);
+            core.setFailed(`\tError processing CSV files: ${err.message}`);
         }
     }
 }
@@ -59,7 +59,7 @@ async function OutputCalls(deviceArray, commandArray){
             throw new Error("No devices valid for POST call.");
         }
     } catch(err){
-        core.setFailed(`\tCall error: ${err}`);
+        core.setFailed(`\tCall error: ${err.stack}`);
     }
 }
 
