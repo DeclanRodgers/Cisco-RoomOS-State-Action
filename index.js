@@ -4,10 +4,10 @@ const macro1 = require('./macros/macro1/getrequest');
 const macro2 = require('./macros/macro2/postrequest');
 const core = require('@actions/core');
 
-//let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt');    //offline testing
-//let apiEndpoint = "https://app.device-view.com/api/devices/{id}";     //offline testing
-let tokenData = core.getInput('token-data');
-let apiEndpoint = core.getInput('api-endpoint');
+let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt');    //offline testing
+let apiEndpoint = "https://app.device-view.com/api/devices/{id}";     //offline testing
+//let tokenData = core.getInput('token-data');
+//let apiEndpoint = core.getInput('api-endpoint');
 let destinationsCSV = __dirname+'/destinations.csv';
 let commandsCSV = __dirname+'/commands.csv';
 
@@ -32,8 +32,9 @@ async function OutputCalls(deviceArray, commandArray){
         core.info('\n** GET Calls **')
         //Iterates through array in reverse 
         for(var i = deviceArray.length - 1; i >= 0; i--){
+            let deviceValid = false;
             core.info(`GET Request for device: ${deviceArray[i]}`);
-            let deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
+            deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
             core.info(`Result: ${deviceValid}`);
             if (!deviceValid){                                
                 deviceArray.splice(i, 1);
@@ -58,7 +59,7 @@ async function OutputCalls(deviceArray, commandArray){
             throw new Error("No devices valid for POST call.");
         }
     } catch(err){
-        core.setFailed(`\t${err}`);
+        core.setFailed(`\tCall error: ${err}`);
     }
 }
 
