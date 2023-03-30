@@ -17,7 +17,7 @@ async function main(){
             let deviceArray = await extractor.ExtractContents(destinationsCSV);        
             let commandArray = await extractor.ExtractContents(commandsCSV);
             core.info(`CSV data extracted successfully`);
-            OutputCalls(deviceArray, commandArray);
+            OutputCalls(deviceArray, commandArray);            
         } catch (err){
             core.error(`\tError processing CSV files: ${err.message}`);
         }
@@ -29,25 +29,18 @@ async function OutputCalls(deviceArray, commandArray){
         core.info('\n** GET Calls **')    
         for(var i = deviceArray.length - 1; i >= 0; i--){
             core.info(`GET Request for device: ${deviceArray[i]}`);
-            let deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
-            if (!deviceValid){                                
-                deviceArray.splice(i, 1);
-            }
+            await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
             core.info('\n');
         };
 
-        if (deviceArray.length === undefined){
-            core.info('** POST Calls **')
-            for(i = 0; i < deviceArray.length; i++){
-                for(j = 0; j < commandArray.length; j++){
-                    core.info(`POST Request for device: ${deviceArray[i]} with command(s):\n${commandArray[j]}`);
-                    await macro2.SendPostCommand(deviceArray[i], commandArray[j], tokenData, apiEndpoint);
-                    core.info('\n');
-                };
+        core.info('** POST Calls **')
+        for(i = 0; i < deviceArray.length; i++){
+            for(j = 0; j < commandArray.length; j++){
+                core.info(`POST Request for device: ${deviceArray[i]} with command(s):\n${commandArray[j]}`);
+                await macro2.SendPostCommand(deviceArray[i], commandArray[j], tokenData, apiEndpoint);
+                core.info('\n');
             };
-        } else {
-            core.error("\tNo devices valid for POST call.");
-        }
+        };
     } catch(err){
         core.error(`\t${err.message}`);
     }

@@ -1,14 +1,16 @@
 # Cisco-RoomOS-State-Action
 
-## Cisco RoomOS Device Configuration Management using Infrastructure as Code (IaC)
+## Overview
 
-Uses a Github action to push desired state to Cisco RoomOS devices using Device-View.com as the integration service with Webex Xapi.
+This repository provides a solution for managing Cisco RoomOS device configuration using Infrastructure as Code (IaC) principles. It uses a Github action to push the desired state to Cisco RoomOS devices, with Device-View.com as the integration service with Webex Xapi.
 
----
+As per the recommended GitHub documentation found [here](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action#commit-tag-and-push-your-action-to-github), the `package.json`, `package-lock.json` files and  `node_modules` folder must be included to run successfully.
 
-## Components
+## Usage
 
-### Example workflow.yml
+### Workflow
+
+To use this solution, add the following step to your workflow YAML file:
 
 ``` yaml
       - name: Call Device Endpoint
@@ -21,19 +23,20 @@ Uses a Github action to push desired state to Cisco RoomOS devices using Device-
 
 ### JWT Token
 
-Stored as a repository secret (Settings > Secrets and Variables > Actions).
-Default Repository Secret name is `JWT_TOKEN`.
+You will need to store your JWT token as a repository secret (Settings > Secrets and Variables > Actions). The default name for this secret is JWT_TOKEN.
 
-### `api-endpoint`
+### '`api-endpoint`'
 
-_Optional_:
-The endpoint to call for interactions with MPP devices.
-The default is shown in example above.
+The api-endpoint parameter is optional, and specifies the endpoint to call for interactions with MPP devices. The default value is shown in the example above.
 
-### `destinations.csv`
+### '`destinations.csv`'
 
-List of Device MAC addresses to call.
+This file should contain a list of Device MAC addresses to call.
 
-### `commands.csv`
+### '`commands.csv`'
 
-xCommands to send to a Device.
+This file should contain xCommands to send to a Device.
+
+## Conclusion
+
+This solution provides an easy-to-use method for managing Cisco RoomOS device configuration using Infrastructure as Code principles. It can be easily integrated into your existing workflows, and provides a secure way to manage your Cisco RoomOS devices.

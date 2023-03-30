@@ -1,7 +1,7 @@
 on:
   push:
     branches: 
-    - 'testing'
+    - 'main'
 jobs:
   device-endpoint-actions:
     name: Call Device Endpoints
@@ -22,7 +22,7 @@ jobs:
         
       - name: Call Device Endpoint
         id: apiCall
-        uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@1.0'
+        uses: 'DeclanRodgers/Cisco-RoomOS-State-Action@0.9'
         with:
              token-data: ${{ secrets.JWT_TOKEN }}
              #api-endpoint: "https://app.device-view.com/api/devices/{id}"
