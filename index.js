@@ -34,9 +34,11 @@ async function OutputCalls(deviceArray, commandArray){
         for(var i = deviceArray.length - 1; i >= 0; i--){
             core.info(`GET Request for device: ${deviceArray[i]}`);
             let deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
+            core.info(`Result: ${deviceValid}`);
             if (!deviceValid){                                
                 deviceArray.splice(i, 1);
             }
+            core.info(`Devices:${deviceArray}`);
             core.info('\n');
         };
 
