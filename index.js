@@ -4,10 +4,10 @@ const macro1 = require('./macros/macro1/getrequest');
 const macro2 = require('./macros/macro2/postrequest');
 const core = require('@actions/core');
 
-// let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt');    //offline testing
-// let apiEndpoint = "https://app.device-view.com/api/devices/{id}";     //offline testing
-let tokenData = core.getInput('token-data');
-let apiEndpoint = core.getInput('api-endpoint');
+let tokenData = Fs.readFileSync(__dirname+'/textfiles/secret.txt');    //offline testing
+let apiEndpoint = "https://app.device-view.com/api/devices/{id}";     //offline testing
+// let tokenData = core.getInput('token-data');
+// let apiEndpoint = core.getInput('api-endpoint');
 let destinationsCSV = __dirname+'/destinations.csv';
 let commandsCSV = __dirname+'/commands.csv';
 
@@ -37,12 +37,12 @@ async function OutputCalls(deviceArray, commandArray){
             deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
             if (!deviceValid){                                
                 deviceArray.splice(i, 1);
-            }
+            };
             core.info("\n");
         };
 
         //Iterates in correct order with devices after verifying with GET
-        if (!deviceArray){
+        if (deviceArray.length > 0){
             core.info('\n** POST Calls **')
             for(i = 0; i < deviceArray.length; i++){
                 for(j = 0; j < commandArray.length; j++){
