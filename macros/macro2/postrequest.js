@@ -19,7 +19,7 @@ async function SendPostCommand(device, xCommand, jwtToken, apiEndpoint){
   };
 
   try{
-    core.info(`Endpoint: ${deviceEndpoint}`)
+    //core.info(`Endpoint: ${deviceEndpoint}`);
     await axios.post(deviceEndpoint, bodyData, headerConfig)
       .then(response =>{
         core.info(`Response:${response.status} - xCommand(s) sent`);

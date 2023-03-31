@@ -35,19 +35,15 @@ async function OutputCalls(deviceArray, commandArray){
             let deviceValid = false;
             core.info(`GET Request for device: ${deviceArray[i]}`);
             deviceValid = await macro1.SendGetCommand(deviceArray[i], tokenData, apiEndpoint);
-            core.info(`Result: ${deviceValid}`);
             if (!deviceValid){                                
                 deviceArray.splice(i, 1);
             }
-            core.info(`Devices:${deviceArray}`);
-            core.info('\n');
+            core.info("\n");
         };
 
-        core.info(`Devices Left:\n${deviceArray}`);
-
-        //Iterates in correct order
-        if (deviceArray.length === undefined){
-            core.info('** POST Calls **')
+        //Iterates in correct order with devices after verifying with GET
+        if (!deviceArray){
+            core.info('\n** POST Calls **')
             for(i = 0; i < deviceArray.length; i++){
                 for(j = 0; j < commandArray.length; j++){
                     core.info(`POST Request for device: ${deviceArray[i]} with command(s):\n${commandArray[j]}`);
@@ -59,7 +55,7 @@ async function OutputCalls(deviceArray, commandArray){
             throw new Error("No devices valid for POST call.");
         }
     } catch(err){
-        core.setFailed(`\tCall error: ${err.stack}`);
+        core.setFailed(`\tCall error: ${err.message}`);
     }
 }
 
